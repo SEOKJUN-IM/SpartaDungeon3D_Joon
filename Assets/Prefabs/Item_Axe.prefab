@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4655704896933001880}
   - component: {fileID: 3783080424295416051}
   - component: {fileID: 1005521928106743745}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ax_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5057064695291454003}
   - component: {fileID: 579068173398701058}
   - component: {fileID: 2344031096757420100}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Item_Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68434f1c64a63434cb566ff7f89d2455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 139a2a7af8e023b478d5d5543d4baf59, type: 2}
 --- !u!65 &579068173398701058
 BoxCollider:
   m_ObjectHideFlags: 0

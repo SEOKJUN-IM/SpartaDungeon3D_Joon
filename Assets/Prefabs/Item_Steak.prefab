@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5942456982062338992}
   - component: {fileID: 7059494652452876579}
   - component: {fileID: 2444169652050536647}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Item_Steak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7524542068637277430}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.28074762, z: -0, w: 0.95978165}
+  m_LocalRotation: {x: 0, y: 0.28075045, z: 0, w: 0.9597808}
   m_LocalPosition: {x: -93.01, y: 0.08, z: 209.81}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68434f1c64a63434cb566ff7f89d2455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 85e55241d2c94f14482060d447d89a07, type: 2}
 --- !u!65 &7059494652452876579
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 1486212009462928049}
   - component: {fileID: 6037527772681972399}
   - component: {fileID: 8131297851957626976}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Steak
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4276995628331387037}
   - component: {fileID: 1482382737386183497}
   - component: {fileID: 1090930964831842615}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7527841881742665072}
   - component: {fileID: 1861879298900296911}
   - component: {fileID: 4317677187878696302}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Item_Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5420821439724381871}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.24217415, y: 0.66434306, z: 0.66434306, w: 0.24217415}
+  m_LocalRotation: {x: -0.2421753, y: 0.66434264, z: 0.66434264, w: 0.2421753}
   m_LocalPosition: {x: -91.33, y: 0.14, z: 211.45}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68434f1c64a63434cb566ff7f89d2455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 6bd4dadb4e38b0341a63ff46235b3a96, type: 2}
 --- !u!65 &1861879298900296911
 BoxCollider:
   m_ObjectHideFlags: 0

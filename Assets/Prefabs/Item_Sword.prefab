@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5527488387864748195}
   - component: {fileID: 3805411105339222925}
   - component: {fileID: 3493076080400227300}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Item_Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68434f1c64a63434cb566ff7f89d2455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 79df9478967bf7340a60a56b3ab2918f, type: 2}
 --- !u!65 &3805411105339222925
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 3969066497411382670}
   - component: {fileID: 7422483793680342197}
   - component: {fileID: 2398946386225572653}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sword_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
