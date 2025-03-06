@@ -19,11 +19,10 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
 
     Condition health { get { return uiCondition.health; } }
     Condition temperature { get { return uiCondition.temperature; } }
-    Condition hunger { get { return uiCondition.hunger; } }
+    Condition stamina { get { return uiCondition.stamina; } }
 
     public float coldHealthDecay;
-    public float notemperatureHealthDecay;
-    public float noHungerHealthDecay;
+    public float notemperatureHealthDecay;    
 
     public event Action onTakeDamage;
     public event Action onWarming;
@@ -31,7 +30,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
     void Update()
     {
         temperature.Subtract(temperature.passiveValue * Time.deltaTime);
-        hunger.Subtract(hunger.passiveValue * Time.deltaTime);
+        stamina.Add(stamina.passiveValue * Time.deltaTime);
 
         if (temperature.curValue > temperature.maxValue * 0.5f)
         {
@@ -47,12 +46,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
         if (temperature.curValue == 0f)
         {
             health.Subtract(notemperatureHealthDecay * Time.deltaTime);
-        }
-
-        if (hunger.curValue == 0f)
-        {
-            health.Subtract(noHungerHealthDecay * Time.deltaTime);
-        }
+        }        
 
         if (health.curValue == 0f)
         {
@@ -68,11 +62,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
     public void Warm(float amount)
     {
         temperature.Add(amount);
-    }
-
-    public void Eat(float amount)
-    {
-        hunger.Add(amount);
     }
 
     public void Die()
