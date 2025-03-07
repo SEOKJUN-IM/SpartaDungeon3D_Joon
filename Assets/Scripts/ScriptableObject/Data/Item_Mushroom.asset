@@ -19,3 +19,6 @@ MonoBehaviour:
   dropPrefab: {fileID: 6094914677368070199, guid: 8ae7b913006583f4b8ab327ef3e893e8, type: 3}
   canStack: 1
   maxStackAmount: 20
+  consumables:
+  - type: 0
+    value: 5

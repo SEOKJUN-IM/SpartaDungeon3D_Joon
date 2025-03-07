@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -19,7 +20,9 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     public float lookSensitivity;
     private Vector2 mouseDelta;
+    public bool canLook = true;
 
+    public Action inventory;
     public Rigidbody _rigidbody;
 
     private void Awake()
@@ -41,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        CameraLook();
+        if (canLook) CameraLook();      
     }
 
     // 실제로 이동하는 메서드
@@ -92,7 +95,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
-    }
+    }    
 
     // 땅에 붙어있는지 아닌지 Ray를 통해 체크하는 bool 메서드
     bool IsGrounded()
@@ -114,5 +117,22 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    // InputAction Inventory
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+            ToggleCursor();
+        }
+    }
+
+    void ToggleCursor()
+    {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 }

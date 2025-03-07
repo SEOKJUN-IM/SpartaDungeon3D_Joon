@@ -64,6 +64,11 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
         temperature.Add(amount);
     }
 
+    public void Energetic(float amount)
+    {
+        stamina.Add(amount);
+    }
+
     public void Die()
     {
         Debug.Log("Player Die!");
