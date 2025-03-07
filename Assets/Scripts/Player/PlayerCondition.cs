@@ -18,14 +18,14 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
 {
     public UICondition uiCondition;
 
-    Condition health { get { return uiCondition.health; } }
-    Condition temperature { get { return uiCondition.temperature; } }
-    Condition stamina { get { return uiCondition.stamina; } }
+    public Condition health { get { return uiCondition.health; } }
+    public Condition temperature { get { return uiCondition.temperature; } }
+    public Condition stamina { get { return uiCondition.stamina; } }
     
     public float coldHealthDecay;
     public float notemperatureHealthDecay;
 
-    public Coroutine addCoroutine;   
+    public Coroutine addCoroutine;       
 
     public event Action onTakeDamage;
     public event Action onWarming;
@@ -118,15 +118,24 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
         }
     }
 
-    // 코루틴 적용
+    // 아이템 사용 위한 코루틴 적용
     public void ApplyAddOverTime(Condition condition, float amount, float duration)
     {
         addCoroutine = StartCoroutine(AddValueOverTime(condition, amount, duration));
     }
     
-    // 코루틴 중단
+    // 아이템 사용 코루틴 중단
     public void RemoveAddOverTime(Condition condition, float amount, float duration)
     {
         if (addCoroutine != null) StopCoroutine(AddValueOverTime(condition, amount, duration));
+    }
+
+    // 플레이어 특정 행동에 Stamina 사용할 수 있게 하는 bool메서드
+    public bool UseStamina(float amount)
+    {
+        if (stamina.curValue - amount < 0) return false;
+
+        stamina.Subtract(amount);
+        return true;
     }
 }

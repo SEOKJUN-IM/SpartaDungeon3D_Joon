@@ -8817,9 +8817,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curValue: 0
-  startValue: 200
+  startValue: 400
   maxValue: 500
-  passiveValue: 2
+  passiveValue: 5
   uiBar: {fileID: 49346539}
 --- !u!1001 &920676518
 PrefabInstance:
@@ -27445,6 +27445,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d472ad25-7dec-4ac3-bff5-6addb5011206
     m_ActionName: Player/PositionReset[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7591838854386013652}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 31261b76-fbac-4948-92aa-bbed58075842
+    m_ActionName: Player/Dash[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7591838854386013652}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnTeleport
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6d9da313-b55b-4d63-b48d-726abe20ed50
+    m_ActionName: Player/Teleport[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -27463,7 +27495,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  jumpForce: 120
+  jumpForce: 160
+  jumpStamina: 20
+  positionResetStamina: 50
+  dashSpeed: 40
+  dashStaminaPerRate: 40
+  dashUseStaminaRate: 0.5
+  teleportDistance: 15
+  teleportStamina: 30
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 55
@@ -27472,8 +27511,6 @@ MonoBehaviour:
   maxXLook: 85
   lookSensitivity: 0.1
   canLook: 1
-  startPosition: {x: 0, y: 0, z: 0}
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
   _rigidbody: {fileID: 0}
 --- !u!114 &7591838854386013653
 MonoBehaviour:
