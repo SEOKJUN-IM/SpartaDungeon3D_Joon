@@ -16,6 +16,7 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI selectedItemDescription;
     public TextMeshProUGUI selectedStatName;
     public TextMeshProUGUI selectedStatValue;
+    public TextMeshProUGUI selectedStatDuration;
     public GameObject useButton;
     public GameObject equipButton;
     public GameObject unequipButton;
@@ -49,17 +50,13 @@ public class UIInventory : MonoBehaviour
         ClearSelectedItemInfo();
     }
 
-    void Update()
-    {
-        
-    }
-
     void ClearSelectedItemInfo()
     {
         selectedItemName.text = string.Empty;
         selectedItemDescription.text = string.Empty;
         selectedStatName.text = string.Empty;
         selectedStatValue.text = string.Empty;
+        selectedStatDuration.text = string.Empty;
 
         useButton.SetActive(false);
         equipButton.SetActive(false);
@@ -163,11 +160,14 @@ public class UIInventory : MonoBehaviour
 
         selectedStatName.text = string.Empty;
         selectedStatValue.text = string.Empty;
+        selectedStatDuration.text = string.Empty;
 
         for (int i = 0; i < selectedItem.consumables.Length; i++)
         {
             selectedStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
             selectedStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
+            if (selectedItem.consumables[i].duration == 0f) selectedStatDuration.text += "즉시 회복" + "\n";
+            else selectedStatDuration.text += $"{selectedItem.consumables[i].duration}초 지속" + "\n";
         }
 
         useButton.SetActive(selectedItem.type == ItemType.Consumable);
@@ -186,13 +186,13 @@ public class UIInventory : MonoBehaviour
                 switch (selectedItem.consumables[i].type)
                 {
                     case ConsumableType.Health:
-                        condition.Heal(selectedItem.consumables[i].value);
+                        condition.Heal(selectedItem.consumables[i].value, selectedItem.consumables[i].duration);
                         break;
                     case ConsumableType.Temperature:
-                        condition.Warm(selectedItem.consumables[i].value);
+                        condition.Warm(selectedItem.consumables[i].value, selectedItem.consumables[i].duration);
                         break;
                     case ConsumableType.Stamina:
-                        condition.Energetic(selectedItem.consumables[i].value);
+                        condition.Energetic(selectedItem.consumables[i].value, selectedItem.consumables[i].duration);
                         break;                   
                 }
             }

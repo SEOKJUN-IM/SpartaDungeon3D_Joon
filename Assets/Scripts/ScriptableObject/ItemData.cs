@@ -22,6 +22,7 @@ public class ItemDataConsumable
 {
     public ConsumableType type;
     public float value;
+    public float duration;
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,18 +23,24 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseDelta;
     public bool canLook = true;
 
+    public Vector3 startPosition;
+    public Quaternion startRotation;  
+
     public Action inventory;
-    public Rigidbody _rigidbody;
+    public Rigidbody _rigidbody;    
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();      
     }
 
     void Start()
     {
         // 화면에서 커서 Lock
         Cursor.lockState = CursorLockMode.Locked;
+        // 초기 위치와 회전값 저장
+        startPosition = transform.position; 
+        startRotation.eulerAngles = transform.eulerAngles;        
     }
 
     void FixedUpdate()
@@ -93,7 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);            
         }
     }    
 
@@ -134,5 +141,15 @@ public class PlayerController : MonoBehaviour
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
+    }
+
+    // InputAction ResetPosition
+    public void OnResetPosition(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            transform.position = startPosition;
+            transform.eulerAngles = startRotation.eulerAngles;       
+        }
     }
 }

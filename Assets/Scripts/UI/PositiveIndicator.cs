@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WarmIndicator : MonoBehaviour
+public class PositiveIndicator : MonoBehaviour
 {
     public Image image;
     public float flashSpeed;

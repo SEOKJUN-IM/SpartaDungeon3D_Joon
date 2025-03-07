@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public interface IDamageable
@@ -20,9 +21,11 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
     Condition health { get { return uiCondition.health; } }
     Condition temperature { get { return uiCondition.temperature; } }
     Condition stamina { get { return uiCondition.stamina; } }
-
+    
     public float coldHealthDecay;
-    public float notemperatureHealthDecay;    
+    public float notemperatureHealthDecay;
+
+    public Coroutine addCoroutine;   
 
     public event Action onTakeDamage;
     public event Action onWarming;
@@ -54,19 +57,37 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
         }
     }
 
-    public void Heal(float amount)
+    public void Heal(float amount, float duration)
     {
-        health.Add(amount);
+        if (duration == 0f) health.Add(amount);
+        // 아니면 duration 시간 동안 매초 amount / duration 만큼 Add
+        else
+        {
+            ApplyAddOverTime(health, amount, duration);
+            RemoveAddOverTime(health, amount, duration);
+        }
     }
 
-    public void Warm(float amount)
+    public void Warm(float amount, float duration)
     {
-        temperature.Add(amount);
+        if (duration == 0f) temperature.Add(amount);
+        // 아니면 duration 시간 동안 매초 amount / duration 만큼 Add
+        else
+        {
+            ApplyAddOverTime(temperature, amount, duration);
+            RemoveAddOverTime(temperature, amount, duration);
+        }
     }
 
-    public void Energetic(float amount)
+    public void Energetic(float amount, float duration)
     {
-        stamina.Add(amount);
+        if (duration == 0f) stamina.Add(amount);
+        // 아니면 duration 시간 동안 매초 amount / duration 만큼 Add
+        else
+        {
+            ApplyAddOverTime(stamina, amount, duration);
+            RemoveAddOverTime(stamina, amount, duration);
+        }
     }
 
     public void Die()
@@ -84,5 +105,28 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
     {
         temperature.Add(amout);
         onWarming?.Invoke();
+    }
+
+    // 컨디션에 매초 Add해야할만큼 Add하는 IEnumerator
+    public IEnumerator AddValueOverTime(Condition condition, float amount, float duration)
+    {
+        while (duration > 0f)
+        {
+            condition.Add(amount / duration);
+            yield return new WaitForSeconds(1f);
+            duration--;
+        }
+    }
+
+    // 코루틴 적용
+    public void ApplyAddOverTime(Condition condition, float amount, float duration)
+    {
+        addCoroutine = StartCoroutine(AddValueOverTime(condition, amount, duration));
+    }
+    
+    // 코루틴 중단
+    public void RemoveAddOverTime(Condition condition, float amount, float duration)
+    {
+        if (addCoroutine != null) StopCoroutine(AddValueOverTime(condition, amount, duration));
     }
 }
