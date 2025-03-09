@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float dashStaminaPerRate;
     public float dashUseStaminaRate;
+    private float lastSubStaminaTime;
     private bool isdashing = false;    
 
     public float teleportDistance;    
@@ -42,8 +43,7 @@ public class PlayerController : MonoBehaviour
     public Action inventory;
     public Rigidbody _rigidbody;
 
-    private Condition playerStamina;
-    public Coroutine subtractStaminaCoroutine;   
+    private Condition playerStamina;       
 
     private void Awake()
     {
@@ -66,16 +66,19 @@ public class PlayerController : MonoBehaviour
         playerStamina = CharacterManager.Instance.Player.condition.stamina;
     }
 
-    void Update()
-    {
-        // 실제로 대쉬 시 이동속도 변경되는 메서드
-        Dash();
-    }
-
     void FixedUpdate()
     {
         // 물리연산을 하는 로직은 FixedUpdate에서 하는 것이 좋음
-        Move();        
+        Move();
+
+        // dash
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (CanDash()) UseDash();            
+            else StopDash();            
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();        
     }
 
     private void LateUpdate()
@@ -182,25 +185,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // InputAction Dash
-    public void OnDash(InputAction.CallbackContext context)
-    {        
-        if (context.phase == InputActionPhase.Performed && CanDash() == true)
-        {
-            UseDash();
-        }
-
-        if (context.phase == InputActionPhase.Performed && CanDash() == false)
-        {
-            StopDash();
-        }
-
-        if (context.phase == InputActionPhase.Canceled)
-        {                        
-            StopDash();            
-        }
-    }
-
     // 대쉬 가능한지 판단하는 bool 메서드
     bool CanDash()
     {
@@ -208,40 +192,30 @@ public class PlayerController : MonoBehaviour
         else return false;
     }
 
-    // 대쉬 중 스태미나 지속적으로 빠지게 하는 IEnumerator
-    public IEnumerator SubtractStaminaOverTime(Condition condition, float amount, float rate)
+    // 대쉬 중 스태미나 지속적으로 빠지게 하는 메서드
+    void SubtractStaminaOverTime()
     {
-        while (CanDash())
+        if (isdashing)
         {
-            isdashing = true;
-            condition.Subtract(amount);            
-            yield return new WaitForSeconds(rate);
-
-            if (!CanDash())
+            if(Time.time - lastSubStaminaTime >= dashUseStaminaRate)
             {
-                isdashing = false;
-                break;
-            }
+                lastSubStaminaTime = Time.time;
+                playerStamina.Subtract(dashStaminaPerRate);
+            }            
         }
     }
 
-    // dash 사용 메서드
     void UseDash()
-    {        
-        subtractStaminaCoroutine = StartCoroutine(SubtractStaminaOverTime(playerStamina, dashStaminaPerRate, dashUseStaminaRate));
-    }
-
-    // dash 정지 메서드
-    void StopDash()
-    {        
-        StopCoroutine(SubtractStaminaOverTime(playerStamina, dashStaminaPerRate, dashUseStaminaRate));
-    }
-
-    // dash 메서드
-    void Dash()
     {
-        if (isdashing) moveSpeed = dashSpeed;
-        else moveSpeed = startMoveSpeed;
+        moveSpeed = dashSpeed;
+        isdashing = true;
+        SubtractStaminaOverTime();
+    }
+
+    void StopDash()
+    {
+        moveSpeed = startMoveSpeed;
+        isdashing = false;
     }
 
     // InputAction Teleport

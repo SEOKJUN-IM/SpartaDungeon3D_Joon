@@ -32,6 +32,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable, IWarmable
 
     void Update()
     {
+        health.Add(health.passiveValue * Time.deltaTime);
         temperature.Subtract(temperature.passiveValue * Time.deltaTime);
         stamina.Add(stamina.passiveValue * Time.deltaTime);
 
