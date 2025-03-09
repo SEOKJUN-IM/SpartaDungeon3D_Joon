@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float dashStaminaPerRate;
     public float dashUseStaminaRate;
-    private bool isdashing = false;
+    private bool isdashing = false;    
 
     public float teleportDistance;    
     public float teleportStamina;
@@ -64,6 +64,12 @@ public class PlayerController : MonoBehaviour
 
         // stamina 불러오기
         playerStamina = CharacterManager.Instance.Player.condition.stamina;
+    }
+
+    void Update()
+    {
+        // 실제로 대쉬 시 이동속도 변경되는 메서드
+        Dash();
     }
 
     void FixedUpdate()
@@ -179,58 +185,63 @@ public class PlayerController : MonoBehaviour
     // InputAction Dash
     public void OnDash(InputAction.CallbackContext context)
     {        
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanDash() == true)
         {
-            if (playerStamina.curValue >= dashStaminaPerRate)
-            {
-                isdashing = true;
-                UseDash();
-            }
-            else
-            {
-                isdashing = false;
-                StopDash();
-            }
-            
+            UseDash();
+        }
+
+        if (context.phase == InputActionPhase.Performed && CanDash() == false)
+        {
+            StopDash();
         }
 
         if (context.phase == InputActionPhase.Canceled)
-        {
-            isdashing = false;            
+        {                        
             StopDash();            
         }
+    }
 
-        if (playerStamina.curValue < dashStaminaPerRate)
-        {
-            isdashing = false;            
-            StopDash();            
-        }
+    // 대쉬 가능한지 판단하는 bool 메서드
+    bool CanDash()
+    {
+        if (playerStamina.curValue >= dashStaminaPerRate) return true;
+        else return false;
     }
 
     // 대쉬 중 스태미나 지속적으로 빠지게 하는 IEnumerator
     public IEnumerator SubtractStaminaOverTime(Condition condition, float amount, float rate)
     {
-        while (isdashing)
+        while (CanDash())
         {
-            condition.Subtract(amount);
+            isdashing = true;
+            condition.Subtract(amount);            
             yield return new WaitForSeconds(rate);
 
-            if (!isdashing) break;
+            if (!CanDash())
+            {
+                isdashing = false;
+                break;
+            }
         }
     }
 
     // dash 사용 메서드
     void UseDash()
     {        
-        moveSpeed = dashSpeed;
         subtractStaminaCoroutine = StartCoroutine(SubtractStaminaOverTime(playerStamina, dashStaminaPerRate, dashUseStaminaRate));
     }
 
     // dash 정지 메서드
     void StopDash()
     {        
-        moveSpeed = startMoveSpeed;
         StopCoroutine(SubtractStaminaOverTime(playerStamina, dashStaminaPerRate, dashUseStaminaRate));
+    }
+
+    // dash 메서드
+    void Dash()
+    {
+        if (isdashing) moveSpeed = dashSpeed;
+        else moveSpeed = startMoveSpeed;
     }
 
     // InputAction Teleport
@@ -250,6 +261,6 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
-        else return true;        
+        else return true;       
     }
 }
