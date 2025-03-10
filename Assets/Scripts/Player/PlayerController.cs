@@ -77,8 +77,7 @@ public class PlayerController : MonoBehaviour
             if (CanDash()) UseDash();            
             else StopDash();            
         }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();        
+        else if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();       
     }
 
     private void LateUpdate()
