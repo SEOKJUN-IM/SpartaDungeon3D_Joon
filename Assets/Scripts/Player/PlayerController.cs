@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public float jumpForce;
     public float jumpStamina;
+    public float superJumpForce;    
+    private bool isOnSuperJumpZone = false;
 
     private Vector3 startPosition;
     private Quaternion startRotation;
@@ -145,7 +147,16 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
-    }    
+    }
+
+    // InputAction SuperJump
+    public void OnSuperJump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && isOnSuperJumpZone)
+        {
+            _rigidbody.AddForce(Vector2.up * superJumpForce, ForceMode.Impulse);
+        }
+    }
 
     // 땅에 붙어있는지 아닌지 Ray를 통해 체크하는 bool 메서드
     bool IsGrounded()
@@ -249,7 +260,7 @@ public class PlayerController : MonoBehaviour
         else return true;       
     }
 
-    // 뗏목에 올라탔을 때 감지하는 메서드
+    // 뗏목, 슈퍼점프존에 올라갔을 때 감지하는 메서드
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Raft"))
@@ -257,14 +268,26 @@ public class PlayerController : MonoBehaviour
             raft = collision.gameObject.GetComponent<Raft>();
             return;
         }
+
+        if (collision.gameObject.CompareTag("SuperJumpZone"))
+        {
+            isOnSuperJumpZone = true;
+            return;
+        }
     }
 
-    // 뗏목에서 내렸을 때 감지하는 메서드
+    // 뗏목, 슈퍼점프존에서 내렸을 때 감지하는 메서드
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Raft"))
         {
             raft = null;
+            return;
+        }
+
+        if (collision.gameObject.CompareTag("SuperJumpZone"))
+        {
+            isOnSuperJumpZone = false;
             return;
         }
     }
