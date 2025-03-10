@@ -28,9 +28,6 @@ public class PlayerController : MonoBehaviour
     public float teleportDistance;    
     public float teleportStamina;
 
-    private const float rayDistance = 3f;
-    private RaycastHit slopeHit;
-
     private Raft raft;
 
     private Vector2 curMovementInput;
@@ -97,22 +94,17 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-
-        bool isOnSlope = IsOnSlope();
-        dir = isOnSlope ? AdjustDirectionToSlope(dir) : dir;
-        Vector3 gravity = isOnSlope ? Vector3.zero : Vector3.down * Mathf.Abs(_rigidbody.velocity.y);
-
         dir *= moveSpeed;
         dir.y = _rigidbody.velocity.y;
 
-        _rigidbody.velocity = dir + gravity;
+        _rigidbody.velocity = dir;
 
         // 뗏목 탔을 때 플레이어도 따라 움직이는 로직
         if (raft != null)
         {
             _rigidbody.MovePosition(_rigidbody.position + raft.GetMoveVector());
             return;
-        }       
+        }
     }
 
     // 플레이어 보는 방향에 따라 카메라도 조정하는 메서드
@@ -275,23 +267,5 @@ public class PlayerController : MonoBehaviour
             raft = null;
             return;
         }
-    }
-
-    // 경사면에 있는지 체크하는 bool 메서드
-    public bool IsOnSlope()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out slopeHit, rayDistance, groundLayerMask))
-        {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            if (angle != 0f && angle < 80f) return true;
-        }
-        return false;
-    }
-
-    // 이동벡터 경사면에 투영
-    protected Vector3 AdjustDirectionToSlope(Vector3 direction)
-    {
-        return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 }
