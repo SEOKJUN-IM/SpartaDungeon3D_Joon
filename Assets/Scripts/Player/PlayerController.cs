@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public float teleportDistance;    
     public float teleportStamina;
 
+    private Raft raft;
+
     private Vector2 curMovementInput;
     public LayerMask groundLayerMask;
 
@@ -96,6 +98,13 @@ public class PlayerController : MonoBehaviour
         dir.y = _rigidbody.velocity.y;
 
         _rigidbody.velocity = dir;
+
+        // 뗏목 탔을 때 플레이어도 따라 움직이는 로직
+        if (raft != null)
+        {
+            _rigidbody.MovePosition(_rigidbody.position + raft.GetMoveVector());
+            return;
+        }
     }
 
     // 플레이어 보는 방향에 따라 카메라도 조정하는 메서드
@@ -238,5 +247,25 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         else return true;       
+    }
+
+    // 뗏목에 올라탔을 때 감지하는 메서드
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Raft"))
+        {
+            raft = collision.gameObject.GetComponent<Raft>();
+            return;
+        }
+    }
+
+    // 뗏목에서 내렸을 때 감지하는 메서드
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Raft"))
+        {
+            raft = null;
+            return;
+        }
     }
 }
