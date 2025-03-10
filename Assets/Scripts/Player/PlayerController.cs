@@ -66,18 +66,21 @@ public class PlayerController : MonoBehaviour
         playerStamina = CharacterManager.Instance.Player.condition.stamina;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // 물리연산을 하는 로직은 FixedUpdate에서 하는 것이 좋음
-        Move();
-
         // dash
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            if (CanDash()) UseDash();            
-            else StopDash();            
+            if (CanDash()) UseDash();
+            else StopDash();
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();       
+        else if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();
+    }
+
+    void FixedUpdate()
+    {
+        // 물리연산을 하는 로직은 FixedUpdate에서 하는 것이 좋음
+        Move();               
     }
 
     private void LateUpdate()

@@ -50,6 +50,11 @@ public class EquipTool : Equip
             {
                 monster.TakePhysicalDamage(damage);
             }
+
+            if (doesGatherResources && hit.collider.TryGetComponent(out Resource resource))
+            {
+                resource.Gather(hit.point, hit.normal);
+            }
         }
     }
 }
