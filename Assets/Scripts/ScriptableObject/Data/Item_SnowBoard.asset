@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2e57d2ebf610c4f869cebda0d7cb46, type: 3}
+  m_Name: Item_SnowBoard
+  m_EditorClassIdentifier: 
+  displayName: "\uC2A4\uB178\uC6B0\uBCF4\uB4DC"
+  description: "\uBE60\uB974\uAC8C \uC774\uB3D9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  type: 0
+  icon: {fileID: 21300000, guid: 080744c187e3ea04295268df9ebb0f40, type: 3}
+  dropPrefab: {fileID: 3891371677105527983, guid: 356a7dfa462fede4fb07893e30465cbb, type: 3}
+  canStack: 0
+  maxStackAmount: 0
+  consumables: []
+  equipPrefab: {fileID: 4117240373833740479, guid: 49ded1511d4d89949b8b79bf8f680648, type: 3}
