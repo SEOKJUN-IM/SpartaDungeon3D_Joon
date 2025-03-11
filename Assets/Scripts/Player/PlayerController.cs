@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public bool canLook = true;        
 
     public Action inventory;
+    public Action information;
     public Rigidbody _rigidbody;
 
     private Condition playerStamina;       
@@ -178,6 +179,16 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    // InputAction Information
+    public void OnInformation(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            information?.Invoke();
+            ToggleCursor();
+        }
     }
 
     // InputAction Inventory
