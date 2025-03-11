@@ -17348,7 +17348,7 @@ Transform:
   m_GameObject: {fileID: 1255895542}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.2299995, z: 0}
+  m_LocalPosition: {x: 0, y: 2.44, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -22682,7 +22682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curValue: 0
-  startValue: 50
+  startValue: 100
   maxValue: 100
   passiveValue: 1
   uiBar: {fileID: 1522715329}
