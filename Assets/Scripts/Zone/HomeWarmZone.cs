@@ -28,7 +28,11 @@ public class HomeWarmZone : MonoBehaviour
     {
         if (other.TryGetComponent(out IWarmable warmable))
         {
-            if (turnOnFire) things.Add(warmable);
+            if (turnOnFire)
+            {
+                things.Add(warmable);
+                things = things.Distinct().ToList();
+            }
             else things.Clear();
         }
     }

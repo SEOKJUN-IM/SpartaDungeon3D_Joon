@@ -22682,7 +22682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curValue: 0
-  startValue: 100
+  startValue: 50
   maxValue: 100
   passiveValue: 1
   uiBar: {fileID: 1522715329}
