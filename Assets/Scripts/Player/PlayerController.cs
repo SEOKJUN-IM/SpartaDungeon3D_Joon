@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public float teleportStamina;
 
     private Raft raft;
+    private GameObject Fire;
 
     private Vector2 curMovementInput;
     public LayerMask groundLayerMask;
@@ -55,7 +56,8 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         homeWarmZone = FindObjectOfType<HomeWarmZone>().GetComponent<HomeWarmZone>();
-        homeWarmZone.gameObject.SetActive(false);
+        Fire = homeWarmZone.transform.GetChild(0).gameObject;
+        Fire.SetActive(false);      
     }
 
     void Start()
@@ -83,9 +85,9 @@ public class PlayerController : MonoBehaviour
             else StopDash();
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();
-
-        if (homeWarmZone.turnOnFire) homeWarmZone.gameObject.SetActive(true);
-        else homeWarmZone.gameObject.SetActive(false);
+        
+        if (homeWarmZone.turnOnFire) Fire.SetActive(true);
+        else Fire.SetActive(false);
     }
 
     void FixedUpdate()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HomeWarmZone : MonoBehaviour
@@ -23,11 +24,12 @@ public class HomeWarmZone : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent(out IWarmable warmable))
         {
             if (turnOnFire) things.Add(warmable);
+            else things.Clear();
         }
     }
 
@@ -35,7 +37,7 @@ public class HomeWarmZone : MonoBehaviour
     {
         if (other.TryGetComponent(out IWarmable warmable))
         {
-            things.Remove(warmable);
+            things.Clear();
         }
-    }    
+    }
 }
