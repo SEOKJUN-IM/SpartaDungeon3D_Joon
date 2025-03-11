@@ -48,11 +48,14 @@ public class PlayerController : MonoBehaviour
     public Action information;
     public Rigidbody _rigidbody;
 
-    private Condition playerStamina;       
+    private Condition playerStamina;
+    private HomeWarmZone homeWarmZone;         
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();      
+        _rigidbody = GetComponent<Rigidbody>();
+        homeWarmZone = FindObjectOfType<HomeWarmZone>().GetComponent<HomeWarmZone>();
+        homeWarmZone.gameObject.SetActive(false);
     }
 
     void Start()
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
         startMoveSpeed = moveSpeed;
 
         // stamina 불러오기
-        playerStamina = CharacterManager.Instance.Player.condition.stamina;
+        playerStamina = CharacterManager.Instance.Player.condition.stamina;        
     }
 
     void Update()
@@ -80,6 +83,9 @@ public class PlayerController : MonoBehaviour
             else StopDash();
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift)) StopDash();
+
+        if (homeWarmZone.turnOnFire) homeWarmZone.gameObject.SetActive(true);
+        else homeWarmZone.gameObject.SetActive(false);
     }
 
     void FixedUpdate()
@@ -300,6 +306,16 @@ public class PlayerController : MonoBehaviour
         {
             isOnSuperJumpZone = false;
             return;
+        }
+    }    
+
+    // InputAction OnFire
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (!homeWarmZone.turnOnFire) homeWarmZone.turnOnFire = true;
+            else homeWarmZone.turnOnFire = false;
         }
     }
 }
